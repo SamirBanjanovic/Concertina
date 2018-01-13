@@ -14,7 +14,6 @@ namespace Concertina
     public sealed class PluginManager
         : IPluginManager
     {
-
         private readonly ILogger<PluginManager> _logger;
         private readonly IPluginManagerConfiguration _pluginManagerConfiguration;
         private readonly IDictionary<string, string> _pluginLocations;
@@ -26,7 +25,6 @@ namespace Concertina
             _pluginManagerConfiguration = pluginManagerConfiguration;
             _pluginLocations = new Dictionary<string, string>();
             _concertinaPlugins = new ConcurrentDictionary<string, ConcertinaPlugin>();
-
         }
 
         public IEnumerable<(string, Stack<IPluginDetails>)> GetHistory() => ConcertinaPluginStateHistory.GetHistory();
@@ -77,7 +75,7 @@ namespace Concertina
             {
                 try
                 {
-                    RegisterPlugin(cp.Details.TypeInfo);
+                    CreateInstanceAndRegisterPlugin(cp.Details.TypeInfo);
                 }
                 catch (Exception e)
                 {
@@ -125,17 +123,19 @@ namespace Concertina
 
             foreach (var pluginDirectory in pluginDirectories)
             {
-                var hasAssemblyFiles = TryGetAssemblyFilesFromPluginDirectory(pluginDirectory, out IEnumerable<string> assemblyFiles);
-
-                if (hasAssemblyFiles && assemblyFiles?.Count() > 0)
+                var assemblyFiles = Directory.GetFiles(pluginDirectory, "*.dll");
+                if (assemblyFiles?.Count() > 0)
                 {
-
                     Parallel.ForEach(assemblyFiles, file =>
-                    {
-                        var assembly = Assembly.LoadFrom(file);
-                        if (TryGetAnyPluginsFromAssembly(assembly, out TypeInfo[] pluginTypes))
+                    {                        
+                        var assemblyPlugins = Assembly.LoadFrom(file)
+                                                      .DefinedTypes
+                                                      .Where(p => p.ImplementedInterfaces.Contains(typeof(IPlugin)))
+                                                      .ToArray();
+
+                        if (assemblyPlugins?.Any() == true)
                         {
-                            var assemblyTasks = InitializePlugins(pluginTypes);
+                            var assemblyTasks = InitializePlugins(assemblyPlugins);
                             foreach (var task in assemblyTasks)
                             {
                                 taskBag.Add(task);
@@ -159,11 +159,11 @@ namespace Concertina
             {
                 var pluginType = pluginTypes[i];
 
-                tasks[i] = Task.Run(() =>
+                tasks[i] = Task.Run(() => 
                 {
                     try
                     {
-                        RegisterPlugin(pluginType);
+                        CreateInstanceAndRegisterPlugin(pluginType);
                     }
                     catch (Exception e)
                     {
@@ -175,88 +175,19 @@ namespace Concertina
             return tasks;
         }
 
-        private void RegisterPlugin(TypeInfo pluginType)
+        private void CreateInstanceAndRegisterPlugin(TypeInfo pluginType)
         {
-            if (TryCreateInstance(pluginType, out IPlugin plugin))
-            {
-                var concertinaPlugin = new ConcertinaPlugin
-                {
-                    Plugin = plugin,
-                    Details = plugin.SetState(PluginState.Initialized)
-                };
+            var plugin = (IPlugin)pluginType.Assembly.CreateInstance(pluginType.FullName, false);
 
-                _concertinaPlugins.AddOrUpdate(pluginType.FullName, concertinaPlugin, (k, v) => concertinaPlugin);
-            }
-            else
+            var concertinaPlugin = new ConcertinaPlugin
             {
-                _logger.LogInformation($"Failed to create instance of type {pluginType.FullName} from assembly {pluginType.Assembly.FullName}");
-            }
-        }
+                Plugin = plugin,
+                Details = plugin.SetState(PluginState.Initialized)
+            };
 
-        private bool TryCreateInstance(TypeInfo typeInfo, out IPlugin plugin)
-        {
-            plugin = null;
-
-            if (typeInfo == null)
-            {
-                _logger.LogWarning("Received null \"TypeInfo\"");
-                return false;
-            }
-
-            try
-            {
-                plugin = (IPlugin)typeInfo.Assembly.CreateInstance(typeInfo.FullName, false);
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.LogCritical(e, $"Error creating instance of plugin \"{ typeInfo.FullName }\" in assembly \"{typeInfo.Assembly}\"");
-                return false;
-            }
-
+            _concertinaPlugins.AddOrUpdate(pluginType.FullName, concertinaPlugin, (k, v) => concertinaPlugin);
         }
 
         #endregion initialization helpers
-
-
-        #region Helper Methods
-
-        private bool TryGetAssemblyFilesFromPluginDirectory(string pluginDirectory, out IEnumerable<string> assemblyFiles)
-        {
-            assemblyFiles = null;
-
-            try
-            {
-                assemblyFiles = Directory.GetFiles(pluginDirectory, "*.dll");
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                // log
-                _logger.LogCritical(e, $"Error searching for assemblies in plugin directory \"{pluginDirectory}\"");
-                return false;
-            }
-        }
-
-        private bool TryGetAnyPluginsFromAssembly(Assembly assembly, out TypeInfo[] pluginTypes)
-        {
-            pluginTypes = null;
-            try
-            {
-                pluginTypes = assembly.DefinedTypes.Where(p => p.ImplementedInterfaces.Contains(typeof(IPlugin))).ToArray();
-
-                return pluginTypes.Any();
-            }
-            catch (Exception e)
-            {
-                _logger.LogCritical(e, $"Error locating \"IPlugin\" implementations in assembly \"{assembly.FullName}\"");
-                return false;
-            }
-
-
-        }
-
-        #endregion Helper Methods
     }
 }
