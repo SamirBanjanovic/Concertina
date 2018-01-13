@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <None Remove="Entities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="IFileDirectoryWatcherJobRequestManager.cs" />
+    <Compile Remove="IJobRequestDetails.cs" />
+    <Compile Remove="IScheduledJobRequestManager.cs" />
+    <Compile Remove="ISubmitJobRequest.cs" />
+    <Compile Remove="JobRequestSourceEnum.cs" />
+  </ItemGroup>
+
+</Project>

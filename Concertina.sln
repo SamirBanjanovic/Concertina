@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5197857B-316C-493E-AF5C-3B84887C42F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Concertina", "src\Concertina\Concertina.csproj", "{46147792-0CAC-4394-8680-BEDCEE9B43D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Concertina.Core", "src\Concertina.Core\Concertina.Core.csproj", "{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concertina.WindowsService", "src\Concertina.WindowsService\Concertina.WindowsService.csproj", "{F785427C-616D-4F15-8BEF-2801D15E953D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectoryWatcherPlugin", "src\DirectoryWatcherPlugin\DirectoryWatcherPlugin.csproj", "{EA9793C8-49AF-48BA-89CF-641A06650E64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{59A3CB63-461D-49E8-812B-543B00E723A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Concertina.Tester", "tests\Concertina.Tester\Concertina.Tester.csproj", "{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46147792-0CAC-4394-8680-BEDCEE9B43D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46147792-0CAC-4394-8680-BEDCEE9B43D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46147792-0CAC-4394-8680-BEDCEE9B43D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46147792-0CAC-4394-8680-BEDCEE9B43D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F785427C-616D-4F15-8BEF-2801D15E953D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F785427C-616D-4F15-8BEF-2801D15E953D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F785427C-616D-4F15-8BEF-2801D15E953D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F785427C-616D-4F15-8BEF-2801D15E953D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA9793C8-49AF-48BA-89CF-641A06650E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA9793C8-49AF-48BA-89CF-641A06650E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA9793C8-49AF-48BA-89CF-641A06650E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA9793C8-49AF-48BA-89CF-641A06650E64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46147792-0CAC-4394-8680-BEDCEE9B43D0} = {5197857B-316C-493E-AF5C-3B84887C42F2}
+		{26BC60A3-E97E-446E-A0CF-ECD7422AEFFA} = {5197857B-316C-493E-AF5C-3B84887C42F2}
+		{F785427C-616D-4F15-8BEF-2801D15E953D} = {5197857B-316C-493E-AF5C-3B84887C42F2}
+		{EA9793C8-49AF-48BA-89CF-641A06650E64} = {5197857B-316C-493E-AF5C-3B84887C42F2}
+		{8AE0E1CC-58B8-4FC7-83E3-F27B0284BB9A} = {59A3CB63-461D-49E8-812B-543B00E723A3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B46B245-A203-4BC4-9A9A-06E83BD96AE4}
+	EndGlobalSection
+EndGlobal

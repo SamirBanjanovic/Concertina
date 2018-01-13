@@ -1,0 +1,12 @@
+﻿{
+  "ConnectionString": {
+    "AppConfig": "Server=testServer;Database=SettingsDb;Trusted_Connection=True;"
+  },
+  "Concertina": {
+    "ServiceSettings": {
+      "Name": "Integration",
+      "DisplayName": "Integration Job Initiater",
+      "Description": "Service that hosts timers and watchers for initiating communication for an integration setup"
+    }
+  }
+}
